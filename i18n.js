@@ -1,0 +1,358 @@
+/**
+ * English + Arabic strings for XO Fields
+ */
+window.XOi18n = (() => {
+  const STRINGS = {
+    en: {
+      title: "XO Fields",
+      brandName: "Fields",
+      brandTag: "Three boards. Three ways to play.",
+      menuModes: "Play modes",
+      modeAi: "Player vs Computer",
+      modeAiHint: "Beat the AI across three levels",
+      modeLocal: "Player vs Player",
+      modeLocalHint: "Same device · pass & play",
+      modeTeam: "Teams (4 players)",
+      modeTeamHint: "2× X vs 2× O · same device",
+      modeOnline: "Play Online",
+      modeOnlineHint: "Invite a friend with a room code",
+      back: "← Back",
+      exit: "← Exit",
+      chooseLevel: "Choose level",
+      levelModeAi: "Play against the computer",
+      levelModeLocal: "Two players on this device",
+      levelModeTeam: "Four players · two on each team",
+      levelClassic: "Classic",
+      levelClassicDesc: "3×3 board · first to three",
+      levelWide: "Wide Field",
+      levelWideDesc: "5×5 board · four in a row",
+      levelQuad: "Quad",
+      levelQuadDesc: "Four colors · win 2 neighboring boards",
+      playClassic: "Play Classic",
+      playWide: "Play Wide Field",
+      playQuad: "Play Quad",
+      difficulty: "Difficulty",
+      diffEasy: "Easy",
+      diffMedium: "Medium",
+      diffHard: "Hard",
+      timePerMove: "{n}s / move",
+      timeHint: "Turn timer: Easy 30s · Medium 15s · Hard 8s",
+      timeLeft: "{n}s",
+      timedOut: "Time’s up!",
+      youTimedOut: "You ran out of time",
+      opponentTimedOut: "Opponent ran out of time",
+      tipPlay: "Play",
+      tipWin: "Win",
+      tipLose: "Lose",
+      tip1Play: "Take turns placing X and O on any empty square.",
+      tip1Win: "Get 3 of your marks in a row — horizontal, vertical, or diagonal.",
+      tip1Lose: "Your opponent gets 3 in a row first, or you run out of turn time. Full board with no line is a draw.",
+      tip2Play: "Same turn rules on a bigger 5×5 grid — plan longer lines.",
+      tip2Win: "Get 4 of your marks in a row — horizontal, vertical, or diagonal.",
+      tip2Lose: "Opponent makes 4 in a row first, or you run out of turn time. Full board with no line is a draw.",
+      tip3Play: "Four colored 3×3 boards. Place on any empty cell in an unfinished board.",
+      tip3Win: "Win a colored board with 3 in a row. Then win a second board that touches it (same row, column, or diagonal) to win the game.",
+      tip3Lose: "Opponent wins two touching boards first, or you run out of turn time. If all boards finish with no touching pair, it’s a draw.",
+      onlineMatch: "Online match",
+      onlineSub: "Create a room or join with a code",
+      hostGame: "Host a game",
+      hostHint: "Pick a level, then share your room code.",
+      hostLevel: "Host level",
+      pillClassic: "Classic",
+      pillWide: "Wide",
+      pillQuad: "Quad",
+      createRoom: "Create room",
+      yourRoomCode: "Your room code",
+      waitingOpponent: "Waiting for opponent…",
+      or: "or",
+      joinGame: "Join a game",
+      roomCode: "Room code",
+      joinRoom: "Join room",
+      howtoSub: "Watch how it works, then start",
+      startPlaying: "Start playing",
+      skipTips: "Skip",
+      demoPlay: "Play",
+      demoWin: "Win",
+      demoLose: "Lose",
+      demo1Play: "Take turns on empty squares",
+      demo1Win: "Make 3 in a row to win",
+      demo1Lose: "Block them — or beat the clock",
+      demo2Play: "Same idea on a 5×5 board",
+      demo2Win: "Make 4 in a row to win",
+      demo2Lose: "Don’t let them finish four",
+      demo3Play: "Each color is its own 3×3 game",
+      demo3Win: "Win one color, then a neighboring color (top row, side, or diagonal)",
+      demo3Lose: "If they take two neighbors first, you lose",
+      demo3Caption1: "① X wins the peach board",
+      demo3Caption2: "② X also wins green — top neighbors → X wins the game!",
+      demo3Caption3: "O wins blue alone — one board is not enough",
+      demo3MetaHint: "Map: need 2 neighbors",
+      howToPlay: "How to play",
+      restart: "Restart",
+      gameBoard: "Game board",
+      roundOver: "Round over",
+      playAgain: "Play again",
+      mainMenu: "Main menu",
+      gotIt: "Got it",
+      tipsTitle: "{name} tips",
+      modeLabelAi: "vs Computer",
+      modeLabelLocal: "Local PvP",
+      modeLabelOnline: "Online",
+      modeLabelTeam: "Teams 4P",
+      onlineFormat: "Match type",
+      onlineDuel: "1 vs 1",
+      onlineTeam4: "Teams 4P",
+      onlineDuelShort: "2 players",
+      onlineTeam4Short: "2×X vs 2×O",
+      onlineSelected: "Selected: {name}",
+      onlineDuelHint: "Wait for 1 opponent, then the match starts.",
+      onlineTeam4Hint: "Wait for 3 more players (4 total). Seats: X1, O1, X2, O2.",
+      waitingPlayers: "Players {n}/{need}",
+      waitingTeam: "Waiting for full team lobby…",
+      playerJoined: "Player joined ({n}/{need})",
+      roomFull: "Room is full",
+      notYourTurn: "Not your turn",
+      yourTeamTurn: "Your turn · {seat} ({mark})",
+      teamX: "Team X",
+      teamO: "Team O",
+      teamSeatX1: "X1",
+      teamSeatX2: "X2",
+      teamSeatO1: "O1",
+      teamSeatO2: "O2",
+      teamTurn: "{seat}'s turn ({mark}) · {team}",
+      teamWins: "{team} wins",
+      levelChip: "Level {n} · {name}",
+      yourTurn: "Your turn",
+      yourTurnMark: "Your turn ({mark})",
+      computerThinking: "Computer thinking…",
+      opponentTurn: "Opponent's turn ({mark})",
+      markTurn: "{mark}'s turn",
+      draw: "Draw",
+      markWins: "{mark} wins",
+      itsDraw: "It's a draw",
+      youWin: "You win!",
+      computerWins: "Computer wins",
+      opponentWins: "Opponent wins",
+      waitingHost: "Waiting for host…",
+      creatingRoom: "Creating room…",
+      opponentJoined: "Opponent joined!",
+      opponentDisconnected: "Opponent disconnected.",
+      connectionError: "Connection error",
+      shareCode: "Share this code with your friend.",
+      enterValidCode: "Enter a valid room code.",
+      connecting: "Connecting…",
+      connectedWaitingHost: "Connected. Waiting for host…",
+      disconnectedHost: "Disconnected from host.",
+      couldNotJoin: "Could not join room",
+      connectedWaitingStart: "Connected. Waiting for host to start…",
+      langEn: "EN",
+      langAr: "ع",
+    },
+    ar: {
+      title: "إكس أو حقول",
+      brandName: "حقول",
+      brandTag: "ثلاث لوحات. ثلاث طرق للعب.",
+      menuModes: "أوضاع اللعب",
+      modeAi: "لاعب ضد الكمبيوتر",
+      modeAiHint: "تغلّب على الذكاء الاصطناعي عبر ثلاثة مستويات",
+      modeLocal: "لاعب ضد لاعب",
+      modeLocalHint: "نفس الجهاز · تبادل الأدوار",
+      modeTeam: "فرق (4 لاعبين)",
+      modeTeamHint: "2× X ضد 2× O · نفس الجهاز",
+      modeOnline: "لعب عبر الإنترنت",
+      modeOnlineHint: "ادعُ صديقك برمز الغرفة",
+      back: "رجوع →",
+      exit: "خروج →",
+      chooseLevel: "اختر المستوى",
+      levelModeAi: "اللعب ضد الكمبيوتر",
+      levelModeLocal: "لاعبان على نفس الجهاز",
+      levelModeTeam: "أربعة لاعبين · اثنان في كل فريق",
+      levelClassic: "كلاسيكي",
+      levelClassicDesc: "لوحة 3×3 · أول من يصل لثلاثة",
+      levelWide: "حقل واسع",
+      levelWideDesc: "لوحة 5×5 · أربعة في صف",
+      levelQuad: "رباعي",
+      levelQuadDesc: "أربعة ألوان · افز بلوحتين متجاورتين",
+      playClassic: "العب الكلاسيكي",
+      playWide: "العب الحقل الواسع",
+      playQuad: "العب الرباعي",
+      difficulty: "الصعوبة",
+      diffEasy: "سهل",
+      diffMedium: "متوسط",
+      diffHard: "صعب",
+      timePerMove: "{n} ث / نقلة",
+      timeHint: "مؤقت النقلة: سهل 30ث · متوسط 15ث · صعب 8ث",
+      timeLeft: "{n} ث",
+      timedOut: "انتهى الوقت!",
+      youTimedOut: "انتهى وقتك",
+      opponentTimedOut: "انتهى وقت الخصم",
+      tipPlay: "اللعب",
+      tipWin: "الفوز",
+      tipLose: "الخسارة",
+      tip1Play: "تناوبا على وضع X و O في أي مربع فارغ.",
+      tip1Win: "احصل على 3 علامات في صف — أفقي أو عمودي أو قطري.",
+      tip1Lose: "يحصل خصمك على 3 في صف أولاً، أو ينتهي وقت نقلتك. امتلاء اللوحة بلا خط يعني تعادلاً.",
+      tip2Play: "نفس قواعد التناوب على لوحة 5×5 أكبر — خطط لخطوط أطول.",
+      tip2Win: "احصل على 4 علامات في صف — أفقي أو عمودي أو قطري.",
+      tip2Lose: "يصنع الخصم 4 في صف أولاً، أو ينتهي وقت نقلتك. امتلاء اللوحة بلا خط يعني تعادلاً.",
+      tip3Play: "أربع لوحات 3×3 ملوّنة. ضع علامتك في أي خلية فارغة داخل لوحة لم تُحسَم بعد.",
+      tip3Win: "افز بلوحة ملوّنة بثلاثة في صف. ثم افز بلوحة ثانية تلامسها (نفس الصف أو العمود أو القطر) للفوز باللعبة.",
+      tip3Lose: "يفوز الخصم بلوحتين متجاورتين أولاً، أو ينتهي وقت نقلتك. إذا انتهت كل اللوحات دون زوج متجاور، فالتعادل.",
+      onlineMatch: "مباراة عبر الإنترنت",
+      onlineSub: "أنشئ غرفة أو انضم برمز",
+      hostGame: "استضف لعبة",
+      hostHint: "اختر مستوى ثم شارك رمز غرفتك.",
+      hostLevel: "مستوى المضيف",
+      pillClassic: "كلاسيكي",
+      pillWide: "واسع",
+      pillQuad: "رباعي",
+      createRoom: "إنشاء غرفة",
+      yourRoomCode: "رمز غرفتك",
+      waitingOpponent: "بانتظار الخصم…",
+      or: "أو",
+      joinGame: "انضم إلى لعبة",
+      roomCode: "رمز الغرفة",
+      joinRoom: "انضم للغرفة",
+      howtoSub: "شاهد كيف تعمل، ثم ابدأ",
+      startPlaying: "ابدأ اللعب",
+      skipTips: "تخطّي",
+      demoPlay: "اللعب",
+      demoWin: "الفوز",
+      demoLose: "الخسارة",
+      demo1Play: "تناوبا على المربعات الفارغة",
+      demo1Win: "اصنع 3 في صف للفوز",
+      demo1Lose: "امنعه — أو سابق الوقت",
+      demo2Play: "نفس الفكرة على لوحة 5×5",
+      demo2Win: "اصنع 4 في صف للفوز",
+      demo2Lose: "لا تدعهم يُكملون أربعة",
+      demo3Play: "كل لون لعبة 3×3 مستقلة",
+      demo3Win: "افز بلون، ثم بلون مجاور (صف علوي أو جانب أو قطر)",
+      demo3Lose: "إذا أخذ خصمك لونين متجاورين أولاً، تخسر",
+      demo3Caption1: "① فاز X بلوحة المشمش",
+      demo3Caption2: "② فاز X بالأخضر أيضاً — جاران في الصف العلوي → فوز X!",
+      demo3Caption3: "O فاز بالأزرق وحده — لوحة واحدة لا تكفي",
+      demo3MetaHint: "الخريطة: تحتاج جارين",
+      howToPlay: "كيف تلعب",
+      restart: "إعادة",
+      gameBoard: "لوحة اللعب",
+      roundOver: "انتهت الجولة",
+      playAgain: "العب مجدداً",
+      mainMenu: "القائمة الرئيسية",
+      gotIt: "حسناً",
+      tipsTitle: "نصائح {name}",
+      modeLabelAi: "ضد الكمبيوتر",
+      modeLabelLocal: "محلي",
+      modeLabelOnline: "إنترنت",
+      modeLabelTeam: "فرق 4",
+      onlineFormat: "نوع المباراة",
+      onlineDuel: "1 ضد 1",
+      onlineTeam4: "فرق 4 لاعبين",
+      onlineDuelShort: "لاعبان",
+      onlineTeam4Short: "2×X ضد 2×O",
+      onlineSelected: "المختار: {name}",
+      onlineDuelHint: "انتظر خصماً واحداً، ثم تبدأ المباراة.",
+      onlineTeam4Hint: "انتظر 3 لاعبين إضافيين (المجموع 4). المقاعد: X1، O1، X2، O2.",
+      waitingPlayers: "اللاعبون {n}/{need}",
+      waitingTeam: "بانتظار اكتمال الردهة…",
+      playerJoined: "انضم لاعب ({n}/{need})",
+      roomFull: "الغرفة ممتلئة",
+      notYourTurn: "ليس دورك",
+      yourTeamTurn: "دورك · {seat} ({mark})",
+      teamX: "فريق X",
+      teamO: "فريق O",
+      teamSeatX1: "X1",
+      teamSeatX2: "X2",
+      teamSeatO1: "O1",
+      teamSeatO2: "O2",
+      teamTurn: "دور {seat} ({mark}) · {team}",
+      teamWins: "فوز {team}",
+      levelChip: "المستوى {n} · {name}",
+      yourTurn: "دورك",
+      yourTurnMark: "دورك ({mark})",
+      computerThinking: "الكمبيوتر يفكر…",
+      opponentTurn: "دور الخصم ({mark})",
+      markTurn: "دور {mark}",
+      draw: "تعادل",
+      markWins: "فوز {mark}",
+      itsDraw: "تعادل",
+      youWin: "لقد فزت!",
+      computerWins: "فاز الكمبيوتر",
+      opponentWins: "فاز الخصم",
+      waitingHost: "بانتظار المضيف…",
+      creatingRoom: "جاري إنشاء الغرفة…",
+      opponentJoined: "انضم الخصم!",
+      opponentDisconnected: "انقطع اتصال الخصم.",
+      connectionError: "خطأ في الاتصال",
+      shareCode: "شارك هذا الرمز مع صديقك.",
+      enterValidCode: "أدخل رمز غرفة صالحاً.",
+      connecting: "جاري الاتصال…",
+      connectedWaitingHost: "تم الاتصال. بانتظار المضيف…",
+      disconnectedHost: "انقطع الاتصال بالمضيف.",
+      couldNotJoin: "تعذر الانضمام للغرفة",
+      connectedWaitingStart: "تم الاتصال. بانتظار بدء المضيف…",
+      langEn: "EN",
+      langAr: "ع",
+    },
+  };
+
+  let lang = localStorage.getItem("xo-lang") || "en";
+  if (lang !== "en" && lang !== "ar") lang = "en";
+
+  function t(key, vars) {
+    const table = STRINGS[lang] || STRINGS.en;
+    let text = table[key] ?? STRINGS.en[key] ?? key;
+    if (vars) {
+      Object.keys(vars).forEach((k) => {
+        text = text.replace(new RegExp(`\\{${k}\\}`, "g"), vars[k]);
+      });
+    }
+    return text;
+  }
+
+  function getLang() {
+    return lang;
+  }
+
+  function setLang(next) {
+    lang = next === "ar" ? "ar" : "en";
+    localStorage.setItem("xo-lang", lang);
+    applyDocument();
+  }
+
+  function applyDocument() {
+    const html = document.documentElement;
+    html.lang = lang;
+    html.dir = lang === "ar" ? "rtl" : "ltr";
+    document.title = t("title");
+
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      const key = el.getAttribute("data-i18n");
+      if (key) el.textContent = t(key);
+    });
+
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-placeholder");
+      if (key) el.setAttribute("placeholder", t(key));
+    });
+
+    document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-aria");
+      if (key) el.setAttribute("aria-label", t(key));
+    });
+
+    document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-title");
+      if (key) el.setAttribute("title", t(key));
+    });
+
+    document.querySelectorAll("[data-lang]").forEach((btn) => {
+      btn.classList.toggle("is-active", btn.getAttribute("data-lang") === lang);
+    });
+
+    if (typeof window.onLanguageChange === "function") {
+      window.onLanguageChange(lang);
+    }
+  }
+
+  return { t, getLang, setLang, applyDocument, STRINGS };
+})();

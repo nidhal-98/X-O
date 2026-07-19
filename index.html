@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XO Fields</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Cairo:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" defer></script>
+</head>
+<body>
+  <div class="bg-orb bg-orb--a" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb--b" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <main class="app">
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" class="lang-btn is-active" data-lang="en">EN</button>
+      <button type="button" class="lang-btn" data-lang="ar">ع</button>
+    </div>
+
+    <!-- HOME -->
+    <section id="screen-home" class="screen screen--home is-active">
+      <header class="brand">
+        <p class="brand__mark">XO</p>
+        <h1 class="brand__name" data-i18n="brandName">Fields</h1>
+        <p class="brand__tag" data-i18n="brandTag">Three boards. Three ways to play.</p>
+      </header>
+
+      <div class="home-preview" aria-hidden="true">
+        <div class="mini-board">
+          <div class="mini-q mini-q--peach"></div>
+          <div class="mini-q mini-q--green"></div>
+          <div class="mini-q mini-q--blue"></div>
+          <div class="mini-q mini-q--yellow"></div>
+        </div>
+      </div>
+
+      <nav class="menu" data-i18n-aria="menuModes">
+        <button type="button" class="menu-btn" data-mode="ai">
+          <span class="menu-btn__label" data-i18n="modeAi">Player vs Computer</span>
+          <span class="menu-btn__hint" data-i18n="modeAiHint">Beat the AI across three levels</span>
+        </button>
+        <button type="button" class="menu-btn" data-mode="local">
+          <span class="menu-btn__label" data-i18n="modeLocal">Player vs Player</span>
+          <span class="menu-btn__hint" data-i18n="modeLocalHint">Same device · pass &amp; play</span>
+        </button>
+        <button type="button" class="menu-btn" data-mode="team">
+          <span class="menu-btn__label" data-i18n="modeTeam">Teams (4 players)</span>
+          <span class="menu-btn__hint" data-i18n="modeTeamHint">2× X vs 2× O · same device</span>
+        </button>
+        <button type="button" class="menu-btn" data-mode="online">
+          <span class="menu-btn__label" data-i18n="modeOnline">Play Online</span>
+          <span class="menu-btn__hint" data-i18n="modeOnlineHint">Invite a friend with a room code</span>
+        </button>
+      </nav>
+    </section>
+
+    <!-- LEVEL SELECT -->
+    <section id="screen-levels" class="screen">
+      <button type="button" class="back-btn" data-back="home" data-i18n="back">← Back</button>
+      <h2 class="screen-title" data-i18n="chooseLevel">Choose level</h2>
+      <p class="screen-sub" id="level-mode-label"></p>
+
+      <div class="level-grid">
+        <article class="level-card">
+          <div class="level-card__top">
+            <span class="level-card__num">01</span>
+            <span class="level-card__name" data-i18n="levelClassic">Classic</span>
+            <span class="level-card__desc" data-i18n="levelClassicDesc">3×3 board · first to three</span>
+            <div class="level-card__preview level-card__preview--1" aria-hidden="true"></div>
+          </div>
+          <div class="diff-row" data-diff-for="1" role="group" data-i18n-aria="difficulty">
+            <button type="button" class="diff-btn is-active" data-diff="easy" data-i18n="diffEasy">Easy</button>
+            <button type="button" class="diff-btn" data-diff="medium" data-i18n="diffMedium">Medium</button>
+            <button type="button" class="diff-btn" data-diff="hard" data-i18n="diffHard">Hard</button>
+          </div>
+          <button type="button" class="primary-btn" data-level="1" data-i18n="playClassic">Play Classic</button>
+        </article>
+
+        <article class="level-card">
+          <div class="level-card__top">
+            <span class="level-card__num">02</span>
+            <span class="level-card__name" data-i18n="levelWide">Wide Field</span>
+            <span class="level-card__desc" data-i18n="levelWideDesc">5×5 board · four in a row</span>
+            <div class="level-card__preview level-card__preview--2" aria-hidden="true"></div>
+          </div>
+          <div class="diff-row" data-diff-for="2" role="group" data-i18n-aria="difficulty">
+            <button type="button" class="diff-btn is-active" data-diff="easy" data-i18n="diffEasy">Easy</button>
+            <button type="button" class="diff-btn" data-diff="medium" data-i18n="diffMedium">Medium</button>
+            <button type="button" class="diff-btn" data-diff="hard" data-i18n="diffHard">Hard</button>
+          </div>
+          <button type="button" class="primary-btn" data-level="2" data-i18n="playWide">Play Wide Field</button>
+        </article>
+
+        <article class="level-card">
+          <div class="level-card__top">
+            <span class="level-card__num">03</span>
+            <span class="level-card__name" data-i18n="levelQuad">Quad</span>
+            <span class="level-card__desc" data-i18n="levelQuadDesc">Four colored boards · claim two</span>
+            <div class="level-card__preview level-card__preview--3" aria-hidden="true">
+              <i class="q peach"></i><i class="q green"></i>
+              <i class="q blue"></i><i class="q yellow"></i>
+            </div>
+          </div>
+          <div class="diff-row" data-diff-for="3" role="group" data-i18n-aria="difficulty">
+            <button type="button" class="diff-btn is-active" data-diff="easy" data-i18n="diffEasy">Easy</button>
+            <button type="button" class="diff-btn" data-diff="medium" data-i18n="diffMedium">Medium</button>
+            <button type="button" class="diff-btn" data-diff="hard" data-i18n="diffHard">Hard</button>
+          </div>
+          <button type="button" class="primary-btn" data-level="3" data-i18n="playQuad">Play Quad</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- HOW TO PLAY (after board select) -->
+    <section id="screen-howto" class="screen">
+      <button type="button" class="back-btn" data-back="levels" data-i18n="back">← Back</button>
+      <h2 class="screen-title" id="howto-title">Classic</h2>
+      <p class="screen-sub" id="howto-sub" data-i18n="howtoSub">Watch how it works, then start</p>
+
+      <div class="howto-stage">
+        <div id="howto-demo" class="howto-demo" aria-hidden="true"></div>
+        <div class="howto-steps" id="howto-steps" aria-live="polite"></div>
+      </div>
+
+      <div class="howto-actions">
+        <button type="button" class="primary-btn" id="btn-howto-start" data-i18n="startPlaying">Start playing</button>
+        <button type="button" class="primary-btn primary-btn--ghost" id="btn-howto-skip" data-i18n="skipTips">Skip</button>
+      </div>
+    </section>
+
+    <!-- ONLINE LOBBY -->
+    <section id="screen-online" class="screen">
+      <button type="button" class="back-btn" data-back="home" data-i18n="back">← Back</button>
+      <h2 class="screen-title" data-i18n="onlineMatch">Online match</h2>
+      <p class="screen-sub" data-i18n="onlineSub">Create a room or join with a code</p>
+
+      <div class="online-panel">
+        <div class="online-block">
+          <h3 data-i18n="hostGame">Host a game</h3>
+          <p class="online-hint" data-i18n="hostHint">Pick a level, then share your room code.</p>
+          <div class="level-pills" role="group" data-i18n-aria="hostLevel">
+            <button type="button" class="pill is-active" data-host-level="1" data-i18n="pillClassic">Classic</button>
+            <button type="button" class="pill" data-host-level="2" data-i18n="pillWide">Wide</button>
+            <button type="button" class="pill" data-host-level="3" data-i18n="pillQuad">Quad</button>
+          </div>
+
+          <p class="choice-label" data-i18n="onlineFormat">Match type</p>
+          <div class="format-choice" role="group" data-i18n-aria="onlineFormat">
+            <button type="button" class="format-card is-active" data-online-format="duel">
+              <span class="format-card__check" aria-hidden="true">✓</span>
+              <span class="format-card__title" data-i18n="onlineDuel">1 vs 1</span>
+              <span class="format-card__desc" data-i18n="onlineDuelShort">2 players</span>
+            </button>
+            <button type="button" class="format-card" data-online-format="team">
+              <span class="format-card__check" aria-hidden="true">✓</span>
+              <span class="format-card__title" data-i18n="onlineTeam4">Teams 4P</span>
+              <span class="format-card__desc" data-i18n="onlineTeam4Short">2×X vs 2×O</span>
+            </button>
+          </div>
+          <p class="choice-selected" id="online-format-selected"></p>
+          <div class="diff-row diff-row--online" data-diff-for="online" role="group" data-i18n-aria="difficulty">
+            <button type="button" class="diff-btn is-active" data-diff="easy" data-i18n="diffEasy">Easy</button>
+            <button type="button" class="diff-btn" data-diff="medium" data-i18n="diffMedium">Medium</button>
+            <button type="button" class="diff-btn" data-diff="hard" data-i18n="diffHard">Hard</button>
+          </div>
+          <p class="online-hint online-hint--time" id="online-time-hint"></p>
+          <p class="online-hint" id="online-format-hint"></p>
+          <button type="button" class="primary-btn" id="btn-host" data-i18n="createRoom">Create room</button>
+          <div id="host-code-box" class="code-box is-hidden">
+            <p data-i18n="yourRoomCode">Your room code</p>
+            <strong id="host-code"></strong>
+            <p class="code-wait" id="host-wait" data-i18n="waitingOpponent">Waiting for opponent…</p>
+            <p class="online-players" id="online-players"></p>
+          </div>
+        </div>
+
+        <div class="online-divider"><span data-i18n="or">or</span></div>
+
+        <div class="online-block">
+          <h3 data-i18n="joinGame">Join a game</h3>
+          <label class="field">
+            <span data-i18n="roomCode">Room code</span>
+            <input type="text" id="join-code" maxlength="6" placeholder="ABC123" autocomplete="off" spellcheck="false" />
+          </label>
+          <button type="button" class="primary-btn primary-btn--ghost" id="btn-join" data-i18n="joinRoom">Join room</button>
+        </div>
+      </div>
+      <p class="online-status" id="online-status" role="status"></p>
+    </section>
+
+    <!-- GAME -->
+    <section id="screen-game" class="screen screen--game">
+      <header class="game-bar">
+        <button type="button" class="back-btn" data-back="exit-game" data-i18n="exit">← Exit</button>
+        <div class="game-meta">
+          <span id="game-mode-label" class="chip"></span>
+          <span id="game-level-label" class="chip chip--soft"></span>
+          <span id="game-diff-label" class="chip chip--diff is-hidden"></span>
+        </div>
+        <div class="game-bar__actions">
+          <button type="button" class="icon-btn" id="btn-tips" data-i18n-title="howToPlay" title="How to play">?</button>
+          <button type="button" class="icon-btn" id="btn-restart" data-i18n-title="restart" title="Restart">↻</button>
+        </div>
+      </header>
+
+      <div class="turn-banner" id="turn-banner">
+        <span id="turn-text">Your turn</span>
+      </div>
+
+      <div class="timer" id="turn-timer" aria-live="polite">
+        <div class="timer__track">
+          <div class="timer__fill" id="timer-fill"></div>
+        </div>
+        <span class="timer__label" id="timer-label">30s</span>
+      </div>
+
+      <div class="team-roster is-hidden" id="team-roster" aria-label="Teams">
+        <div class="team-roster__side team-roster__side--x">
+          <p class="team-roster__title" data-i18n="teamX">Team X</p>
+          <div class="team-roster__seats">
+            <span class="team-seat" data-seat="0">X1</span>
+            <span class="team-seat" data-seat="2">X2</span>
+          </div>
+        </div>
+        <div class="team-roster__side team-roster__side--o">
+          <p class="team-roster__title" data-i18n="teamO">Team O</p>
+          <div class="team-roster__seats">
+            <span class="team-seat" data-seat="1">O1</span>
+            <span class="team-seat" data-seat="3">O2</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="board-stage">
+        <div id="board" class="board" role="grid" data-i18n-aria="gameBoard"></div>
+      </div>
+
+      <div class="score-row">
+        <div class="score">
+          <span class="score__mark score__mark--x">X</span>
+          <span id="score-x">0</span>
+          <span class="score__team is-hidden" id="score-team-x" data-i18n="teamX">Team X</span>
+        </div>
+        <div class="score">
+          <span class="score__mark score__mark--o">O</span>
+          <span id="score-o">0</span>
+          <span class="score__team is-hidden" id="score-team-o" data-i18n="teamO">Team O</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT OVERLAY -->
+    <div id="result-overlay" class="overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="result-title">
+      <div class="overlay__card">
+        <p class="overlay__eyebrow" id="result-eyebrow" data-i18n="roundOver">Round over</p>
+        <h2 id="result-title">X wins</h2>
+        <div class="overlay__actions">
+          <button type="button" class="primary-btn" id="btn-again" data-i18n="playAgain">Play again</button>
+          <button type="button" class="primary-btn primary-btn--ghost" id="btn-menu" data-i18n="mainMenu">Main menu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIPS OVERLAY (in-game) -->
+    <div id="tips-overlay" class="overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="tips-title">
+      <div class="overlay__card overlay__card--tips overlay__card--demo">
+        <p class="overlay__eyebrow" data-i18n="howToPlay">How to play</p>
+        <h2 id="tips-title">Classic</h2>
+        <div id="tips-demo" class="howto-demo howto-demo--compact" aria-hidden="true"></div>
+        <div id="tips-steps" class="howto-steps"></div>
+        <button type="button" class="primary-btn" id="btn-tips-close" data-i18n="gotIt">Got it</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="i18n.js"></script>
+  <script src="game.js"></script>
+  <script src="online.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
