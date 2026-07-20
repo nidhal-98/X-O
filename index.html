@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,8 +16,8 @@
 
   <main class="app">
     <div class="lang-switch" role="group" aria-label="Language">
-      <button type="button" class="lang-btn is-active" data-lang="en">EN</button>
-      <button type="button" class="lang-btn" data-lang="ar">ع</button>
+      <button type="button" class="lang-btn" data-lang="en">EN</button>
+      <button type="button" class="lang-btn is-active" data-lang="ar">ع</button>
     </div>
 
     <!-- HOME -->
@@ -235,7 +235,10 @@
       </div>
 
       <div class="board-stage">
-        <div id="board" class="board" role="grid" data-i18n-aria="gameBoard"></div>
+        <div class="board-wrap">
+          <div id="board" class="board" role="grid" data-i18n-aria="gameBoard"></div>
+          <svg id="win-line-svg" class="win-line-svg is-hidden" aria-hidden="true"></svg>
+        </div>
       </div>
 
       <div class="score-row">
@@ -250,19 +253,21 @@
           <span class="score__team is-hidden" id="score-team-o" data-i18n="teamO">Team O</span>
         </div>
       </div>
-    </section>
 
-    <!-- RESULT OVERLAY -->
-    <div id="result-overlay" class="overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="result-title">
-      <div class="overlay__card">
-        <p class="overlay__eyebrow" id="result-eyebrow" data-i18n="roundOver">Round over</p>
-        <h2 id="result-title">X wins</h2>
-        <div class="overlay__actions">
-          <button type="button" class="primary-btn" id="btn-again" data-i18n="playAgain">Play again</button>
-          <button type="button" class="primary-btn primary-btn--ghost" id="btn-menu" data-i18n="mainMenu">Main menu</button>
+      <div id="result-overlay" class="result-bar is-hidden" role="dialog" aria-labelledby="result-title">
+        <div class="result-bar__card">
+          <div class="result-bar__copy">
+            <p class="result-badge" id="result-eyebrow" data-i18n="roundOver">Round over</p>
+            <h2 class="result-title" id="result-title">X wins</h2>
+            <p class="result-detail" id="result-detail"></p>
+          </div>
+          <div class="result-actions">
+            <button type="button" class="primary-btn" id="btn-again" data-i18n="playAgain">Play again</button>
+            <button type="button" class="primary-btn primary-btn--ghost" id="btn-menu" data-i18n="mainMenu">Main menu</button>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- TIPS OVERLAY (in-game) -->
     <div id="tips-overlay" class="overlay is-hidden" role="dialog" aria-modal="true" aria-labelledby="tips-title">

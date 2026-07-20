@@ -54,6 +54,7 @@
       paused: false,
     },
     lastResultReason: null,
+    resultDelayId: null,
     online: {
       myMark: null,
       mySeat: null,
@@ -610,7 +611,11 @@
 
   function showScreen(name) {
     if (name !== "howto") stopDemo();
-    if (name !== "game") hideTimer();
+    if (name !== "game") {
+      hideTimer();
+      cancelResultDelay();
+      clearWinLine();
+    }
     Object.values(screens).forEach((el) => {
       if (el) el.classList.remove("is-active");
     });
@@ -1023,11 +1028,15 @@
 
   function resetRound(syncOnline) {
     hideTimer();
+    cancelResultDelay();
+    clearWinLine();
     state.game = createState(state.level);
     state.aiThinking = false;
     state.lastResultReason = null;
     resetTeamSeat();
     $("#result-overlay").classList.add("is-hidden");
+    $("#turn-banner").classList.remove("is-hidden");
+    $("#turn-timer").classList.remove("is-hidden");
     renderBoard();
     renderScores();
     renderTeamRoster();
@@ -1046,6 +1055,131 @@
     maybeAiMove();
   }
 
+  function cancelResultDelay() {
+    if (state.resultDelayId) {
+      clearTimeout(state.resultDelayId);
+      state.resultDelayId = null;
+    }
+  }
+
+  function clearWinLine() {
+    const svg = $("#win-line-svg");
+    if (!svg) return;
+    svg.classList.add("is-hidden");
+    svg.classList.remove("win-line-svg--x", "win-line-svg--o");
+    svg.innerHTML = "";
+  }
+
+  function cellCenterInBoard(index) {
+    const board = $("#board");
+    const cell = board && board.querySelector(`[data-index="${index}"]`);
+    if (!board || !cell) return null;
+    const br = board.getBoundingClientRect();
+    const cr = cell.getBoundingClientRect();
+    return {
+      x: cr.left - br.left + cr.width / 2,
+      y: cr.top - br.top + cr.height / 2,
+    };
+  }
+
+  function farthestPair(points) {
+    let best = [points[0], points[points.length - 1]];
+    let maxD = -1;
+    for (let i = 0; i < points.length; i++) {
+      for (let j = i + 1; j < points.length; j++) {
+        const dx = points[i].x - points[j].x;
+        const dy = points[i].y - points[j].y;
+        const d = dx * dx + dy * dy;
+        if (d > maxD) {
+          maxD = d;
+          best = [points[i], points[j]];
+        }
+      }
+    }
+    return best;
+  }
+
+  function extendSegment(a, b, extra) {
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const ux = dx / len;
+    const uy = dy / len;
+    return {
+      x1: a.x - ux * extra,
+      y1: a.y - uy * extra,
+      x2: b.x + ux * extra,
+      y2: b.y + uy * extra,
+    };
+  }
+
+  function quadBoardCenter(q) {
+    const board = $("#board");
+    if (!board) return null;
+    const cells = board.querySelectorAll(`[data-q="${q}"]`);
+    if (!cells.length) return null;
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    const br = board.getBoundingClientRect();
+    cells.forEach((cell) => {
+      const cr = cell.getBoundingClientRect();
+      minX = Math.min(minX, cr.left - br.left);
+      minY = Math.min(minY, cr.top - br.top);
+      maxX = Math.max(maxX, cr.right - br.left);
+      maxY = Math.max(maxY, cr.bottom - br.top);
+    });
+    return { x: (minX + maxX) / 2, y: (minY + maxY) / 2 };
+  }
+
+  function drawWinLine() {
+    clearWinLine();
+    const g = state.game;
+    const board = $("#board");
+    const svg = $("#win-line-svg");
+    if (!g || !board || !svg || g.winner === "draw") return;
+
+    let points = [];
+    if (g.winningLine && g.winningLine.length >= 2) {
+      points = g.winningLine
+        .map((i) => cellCenterInBoard(i))
+        .filter(Boolean);
+    } else if (g.winningBoards && g.winningBoards.length >= 2) {
+      points = g.winningBoards.map((q) => quadBoardCenter(q)).filter(Boolean);
+    }
+    if (points.length < 2) return;
+
+    const [a, b] = farthestPair(points);
+    const pad = Math.max(10, (board.offsetWidth / (g.size || 3)) * 0.28);
+    const seg = extendSegment(a, b, pad);
+
+    const w = board.offsetWidth;
+    const h = board.offsetHeight;
+    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    svg.setAttribute("width", String(w));
+    svg.setAttribute("height", String(h));
+
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", String(seg.x1));
+    line.setAttribute("y1", String(seg.y1));
+    line.setAttribute("x2", String(seg.x2));
+    line.setAttribute("y2", String(seg.y2));
+    const len = Math.hypot(seg.x2 - seg.x1, seg.y2 - seg.y1);
+    line.style.strokeDasharray = String(len);
+    line.style.strokeDashoffset = String(len);
+    line.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      line.style.transition = "stroke-dashoffset 0.45s ease";
+      line.style.strokeDashoffset = "0";
+    });
+
+    svg.appendChild(line);
+    svg.classList.remove("is-hidden", "win-line-svg--x", "win-line-svg--o");
+    if (g.winner === "X") svg.classList.add("win-line-svg--x");
+    else if (g.winner === "O") svg.classList.add("win-line-svg--o");
+  }
+
   function finishRound(relabelOnly) {
     const g = state.game;
     if (!g || !g.over) return;
@@ -1061,61 +1195,137 @@
       }
     }
 
-    const title = $("#result-title");
-    const eyebrow = $("#result-eyebrow");
-    const timedOut = state.lastResultReason === "timeout";
-    eyebrow.textContent = timedOut ? t("timedOut") : t("roundOver");
+    const showOverlay = () => {
+      const title = $("#result-title");
+      const eyebrow = $("#result-eyebrow");
+      const detail = $("#result-detail");
+      const card = $("#result-overlay .result-bar__card");
+      const timedOut = state.lastResultReason === "timeout";
+      const loser = g.winner === "X" ? "O" : g.winner === "O" ? "X" : null;
 
-    if (g.winner === "draw") {
-      title.textContent = t("itsDraw");
-    } else if (timedOut) {
-      if (state.mode === "ai") {
-        title.textContent = g.winner === "X" ? t("youWin") : t("youTimedOut");
-      } else if (state.mode === "online") {
-        if (isOnlineTeam()) {
-          title.textContent = t("teamWins", {
-            team: t(g.winner === "X" ? "teamX" : "teamO"),
-          });
-        } else {
-          title.textContent =
-            g.winner === state.online.myMark ? t("opponentTimedOut") : t("youTimedOut");
+      card.classList.remove("result-bar__card--win", "result-bar__card--lose", "result-bar__card--draw");
+
+      if (g.winner === "draw") {
+        eyebrow.textContent = timedOut ? t("timedOut") : t("roundOver");
+        title.textContent = t("itsDraw");
+        detail.textContent = t("neitherWins");
+        card.classList.add("result-bar__card--draw");
+      } else {
+        const outcome = resultOutcome(g.winner);
+        eyebrow.textContent = timedOut
+          ? t("timedOut")
+          : outcome === "win"
+            ? t("victory")
+            : outcome === "lose"
+              ? t("defeat")
+              : t("roundOver");
+        title.textContent = resultTitle(g.winner, timedOut, outcome);
+        detail.textContent = resultDetail(g.winner, loser);
+        if (outcome === "win") card.classList.add("result-bar__card--win");
+        else if (outcome === "lose") card.classList.add("result-bar__card--lose");
+      }
+
+      $("#turn-banner").classList.add("is-hidden");
+      $("#turn-timer").classList.add("is-hidden");
+      renderTeamRoster();
+      $("#result-overlay").classList.remove("is-hidden");
+
+      if (state.mode === "online" && Online.role !== "host") {
+        $("#btn-again").textContent = t("waitingHost");
+        $("#btn-again").disabled = true;
+      } else {
+        $("#btn-again").textContent = t("playAgain");
+        $("#btn-again").disabled = false;
+      }
+    };
+
+    if (relabelOnly) {
+      showOverlay();
+      return;
+    }
+
+    cancelResultDelay();
+    const hasLine =
+      (g.winningLine && g.winningLine.length >= 2) ||
+      (g.winningBoards && g.winningBoards.length >= 2);
+
+    if (hasLine) {
+      requestAnimationFrame(() => {
+        drawWinLine();
+        const board = $("#board");
+        if (board) {
+          board.scrollIntoView({ block: "center", behavior: "smooth" });
         }
-      } else if (state.mode === "team") {
-        title.textContent = t("teamWins", {
-          team: t(g.winner === "X" ? "teamX" : "teamO"),
-        });
-      } else {
-        title.textContent = t("markWins", { mark: g.winner });
-      }
-    } else if (state.mode === "ai") {
-      title.textContent = g.winner === "X" ? t("youWin") : t("computerWins");
-    } else if (state.mode === "online") {
-      if (isOnlineTeam()) {
-        title.textContent = t("teamWins", {
-          team: t(g.winner === "X" ? "teamX" : "teamO"),
-        });
-      } else {
-        title.textContent =
-          g.winner === state.online.myMark ? t("youWin") : t("opponentWins");
-      }
-    } else if (state.mode === "team") {
-      title.textContent = t("teamWins", {
-        team: t(g.winner === "X" ? "teamX" : "teamO"),
       });
     } else {
-      title.textContent = t("markWins", { mark: g.winner });
+      clearWinLine();
+    }
+    showOverlay();
+  }
+
+  function resultOutcome(winner) {
+    if (state.mode === "ai") return winner === "X" ? "win" : "lose";
+    if (state.mode === "online" && !isOnlineTeam()) {
+      return winner === state.online.myMark ? "win" : "lose";
+    }
+    return "neutral";
+  }
+
+  function resultTitle(winner, timedOut, outcome) {
+    if (state.mode === "ai") {
+      if (timedOut) {
+        return winner === "X" ? t("youWin") : t("youTimedOut");
+      }
+      return winner === "X" ? t("youWin") : t("youLose");
+    }
+    if (state.mode === "online" && !isOnlineTeam()) {
+      if (timedOut) {
+        return winner === state.online.myMark
+          ? t("opponentTimedOut")
+          : t("youTimedOut");
+      }
+      return outcome === "win" ? t("youWin") : t("youLose");
+    }
+    if (state.mode === "team" || isOnlineTeam()) {
+      return t("teamWins", {
+        team: t(winner === "X" ? "teamX" : "teamO"),
+      });
+    }
+    return t("markWins", { mark: winner });
+  }
+
+  function resultDetail(winner, loser) {
+    if (!winner || !loser) return "";
+
+    if (state.mode === "ai") {
+      return t("winnerAndLoser", {
+        winner: winner === "X" ? `${winner} (${t("labelYou")})` : t("labelComputer"),
+        loser: loser === "X" ? `${loser} (${t("labelYou")})` : t("labelComputer"),
+      });
     }
 
-    renderTeamRoster();
-    $("#result-overlay").classList.remove("is-hidden");
-
-    if (state.mode === "online" && Online.role !== "host") {
-      $("#btn-again").textContent = t("waitingHost");
-      $("#btn-again").disabled = true;
-    } else {
-      $("#btn-again").textContent = t("playAgain");
-      $("#btn-again").disabled = false;
+    if (state.mode === "online" && !isOnlineTeam()) {
+      const my = state.online.myMark;
+      return t("winnerAndLoser", {
+        winner:
+          winner === my
+            ? `${winner} (${t("labelYou")})`
+            : `${winner} (${t("labelOpponent")})`,
+        loser:
+          loser === my
+            ? `${loser} (${t("labelYou")})`
+            : `${loser} (${t("labelOpponent")})`,
+      });
     }
+
+    if (state.mode === "team" || isOnlineTeam()) {
+      return t("winnerAndLoser", {
+        winner: t(winner === "X" ? "teamX" : "teamO"),
+        loser: t(loser === "X" ? "teamX" : "teamO"),
+      });
+    }
+
+    return t("winnerAndLoser", { winner, loser });
   }
 
   /* ---------- Rendering ---------- */

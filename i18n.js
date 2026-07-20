@@ -131,8 +131,16 @@ window.XOi18n = (() => {
       markWins: "{mark} wins",
       itsDraw: "It's a draw",
       youWin: "You win!",
+      youLose: "You lose",
       computerWins: "Computer wins",
       opponentWins: "Opponent wins",
+      labelYou: "You",
+      labelComputer: "Computer",
+      labelOpponent: "Opponent",
+      winnerAndLoser: "{winner} wins · {loser} loses",
+      neitherWins: "Neither side wins",
+      victory: "Victory",
+      defeat: "Defeat",
       waitingHost: "Waiting for host…",
       creatingRoom: "Creating room…",
       opponentJoined: "Opponent joined!",
@@ -277,8 +285,16 @@ window.XOi18n = (() => {
       markWins: "فوز {mark}",
       itsDraw: "تعادل",
       youWin: "لقد فزت!",
+      youLose: "لقد خسرت",
       computerWins: "فاز الكمبيوتر",
       opponentWins: "فاز الخصم",
+      labelYou: "أنت",
+      labelComputer: "الكمبيوتر",
+      labelOpponent: "الخصم",
+      winnerAndLoser: "فوز {winner} · خسارة {loser}",
+      neitherWins: "لا فائز ولا خاسر",
+      victory: "انتصار",
+      defeat: "هزيمة",
       waitingHost: "بانتظار المضيف…",
       creatingRoom: "جاري إنشاء الغرفة…",
       opponentJoined: "انضم الخصم!",
@@ -297,8 +313,8 @@ window.XOi18n = (() => {
     },
   };
 
-  let lang = localStorage.getItem("xo-lang") || "en";
-  if (lang !== "en" && lang !== "ar") lang = "en";
+  let lang = localStorage.getItem("xo-lang") || "ar";
+  if (lang !== "en" && lang !== "ar") lang = "ar";
 
   function t(key, vars) {
     const table = STRINGS[lang] || STRINGS.en;
