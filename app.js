@@ -853,7 +853,7 @@
         state.online.connected = false;
       },
       onError: (err) => {
-        setStatus(err.message || t("connectionError"));
+        setStatus(onlineErrorText(err));
       },
     });
 
@@ -887,13 +887,19 @@
         state.online.connected = false;
       },
       onError: (err) => {
-        setStatus(err.message || t("couldNotJoin"));
+        setStatus(onlineErrorText(err) || t("couldNotJoin"));
       },
     });
     Online.join(code, () => {
       setStatus(t("connectedWaitingStart"));
     });
   });
+
+  function onlineErrorText(err) {
+    if (!err) return t("connectionError");
+    if (err.code === "ROOM_UNREACHABLE") return t("roomUnreachable");
+    return err.message || t("connectionError");
+  }
 
   function applyRemoteMove(index) {
     if (!state.game || state.game.over) return;
